@@ -1,61 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef int (*Operate) (const void *a, const void *b);
+int add (int a, int b);
+int sub (int a, int b);
+int mult (int a, int b);
+int divide (int a, int b);
+int exit_prog ( int a , int b);
 
-// For addition
-int add(const void *a, const void *b)
-{
-    // cast arguments to true type
-    int x = *(int *)a;
-    int y = *(int *)b;
-    
-    return x + y;
-}
-
-// For subtraction
-int sub(const void *a, const void *b)
-{
-    // cast arguments to true type
-    int x = *(int *)a;
-    int y = *(int *)b;
-    
-    return x - y;
-}
-
-// For multiplication
-int mul(const void *a, const void *b)
-{
-    // cast arguments to true type
-    int x = *(int *)a;
-    int y = *(int *)b;
-    
-    return x * y;
-}
-
-// For division
-int divs(const void *a, const void *b)
-{
-    // cast arguments to true type
-    int x = *(int *)a;
-    int y = *(int *)b;
-    // have checking for denominator being 0
-    return (y != 0 ? (x / y) : 0);
-}
-
-// For exit
-int exit_prog(const void *a, const void *b)
-{
-    exit(1);
-}
 
 // Create an array of function pointers
-Operate ops[] = {&add, &sub, &mul, &divs, &exit_prog};
+//int (ops[])(int a, int b) = {&add, &sub, &mult, &divide, &exit_prog};
+
+typedef int (*OP) (int a, int b);
+
 
 int main()
 {
     int a, b;
-    char c;
+    int c;
+
+    OP operators[5] = {&add, &sub, &mult, &divide, &exit_prog};
     // in loop
     while (1)
     {
@@ -65,11 +29,16 @@ int main()
         // show menu
         printf("0: Add\n1: Subtraction\n2: Multiplication\n3: Division\n4: Exit\n");
         printf("Enter your choice: ");
-        scanf(" %c", &c);
-        // cast to int from 0 to 4
-        c -= '0';
+        scanf(" %d", &c);
+
         // call corresponding function
-        printf("Result = %d\n", ops[c](&a, &b));
+        printf("Result = %d\n", (*operators[c])(a, b));
     }
     return 0;
 }
+
+int add (int a, int b) { printf ("Adding a and b \n"); return (a + b); }
+int sub (int a, int b) { printf ("Subtracting a and b\n"); return (a - b); }
+int mult (int a, int b) { printf ("Multiplying a and b\n"); return (a * b); }
+int divide (int a, int b) { printf ("Dividing a and b\n"); return (a / b); }
+int exit_prog(int a, int b) { exit(1); }

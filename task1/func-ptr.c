@@ -6,6 +6,8 @@
 #include "process.h"
 #include "util.h"
 
+//collaborated with Chidindu Alim 
+
 #define DEBUG 0			//change this to 1 to enable verbose output
 
 /**
@@ -22,15 +24,21 @@ typedef int (*Comparer) (const void *a, const void *b);
  * - Process ids will be unique
  * - No 2 processes will have same arrival time
  */
-int my_comparer(const void *a, const void *b){
-		// cast arguments to process type
-    Process p1 = *(const Process *)a;
-    Process p2 = *(const Process *)b;
-    // return the difference of arrival time
-    // if p1's arrival is less
-    // this will come first
-    // else p2
-    return (p1.arrival_time - p2.arrival_time);
+int my_comparer(const void *this, const void *that)
+{
+	//TODO: IMPLEMENT ME!
+Process* x = (Process*) this;
+  Process* y = (Process*) that;
+  if (x->priority < y->priority) {
+    return 1;
+  } 
+  else if(x->priority == y->priority) {
+    if(x->arrival_time < y->arrival_time) {
+    return -1;
+    }
+    return 1;
+  } 
+  return -1;
 }
 
 int main(int argc, char *argv[])
